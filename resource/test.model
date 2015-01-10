@@ -1,0 +1,9 @@
+vertex: resource/simple.vert
+fragment: resource/simple.frag
+obj: resource/cylinder.obj
+diffuse: resource/diffuse.dds
+normal: resource/normal.bmp
+specular: resource/specular.dds
+name: Cylinder
+type: 1
+
