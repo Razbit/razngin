@@ -1,5 +1,11 @@
-/* Copyright Eetu "Razbit" Pesonen, 2015
- * Any kind of redistribution without explicit permission is prohibited. */
+/**
+  * @brief For now, the initialization things are done here.
+  * @author Eetu "Razbit" Pesonen
+  * @version 0.01
+  * @date 2015
+  * @copyright Any kind of redistribution without explicit permission is prohibited.
+  *
+  */
 
 #include <stdio.h>
 

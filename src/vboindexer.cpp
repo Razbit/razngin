@@ -6,15 +6,16 @@
 
 #include "vboindexer.h"
 
-
-// Returns true if v1 can be considered equal to v2
-bool is_near(float v1, float v2){
+static inline bool is_near(float v1, float v2){
     return fabs( v1-v2 ) < 0.01f;
 }
 
-// Searches through all already-exported vertices for a similar one.
-// Similar = same position + same UVs + same normal
-bool getSimilarVertexIndex(
+/**
+ * @brief Searches through all already-exported vertices for a similar one.
+ * Similar = same position + same UVs + same normal
+ * @return true if similar was found.
+ */
+static bool getSimilarVertexIndex(
     glm::vec3 & in_vertex,
     glm::vec2 & in_uv,
     glm::vec3 & in_normal,
@@ -44,6 +45,7 @@ bool getSimilarVertexIndex(
     return false;
 }
 
+/// @cond HIDDEN
 struct PackedVertex{
     glm::vec3 position;
     glm::vec2 uv;
@@ -53,7 +55,9 @@ struct PackedVertex{
     };
 };
 
-bool getSimilarVertexIndex_fast(
+/// @endcond
+
+static bool getSimilarVertexIndex_fast(
     PackedVertex & packed,
     std::map<PackedVertex,unsigned short> & VertexToOutIndex,
     unsigned short & result

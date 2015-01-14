@@ -1,8 +1,3 @@
-/* Copyright Eetu "Razbit" Pesonen, 2015
- * Any kind of redistribution without explicit permission is prohibited. */
-
-/* A class derived from Logger to log to files */
-
 #ifndef LOGGERFILE_H
 #define LOGGERFILE_H
 
@@ -13,9 +8,25 @@
 #include "logger.h"
 #include "time.h"
 
+/**
+ * @file
+ * @brief A class for logging to a file.
+ */
+
+/**
+ * @brief A class for logging things to a log file.
+ * @author Eetu "Razbit" Pesonen
+ * @version 0.01
+ * @date 2015
+ * @copyright Any kind of redistribution without explicit permission is prohibited.
+ */
 class LoggerFile : public Logger
 {
 public:
+    /**
+     * @brief Open the log file and writes the beginning message.
+     * @param path Path to the log file
+     */
     LoggerFile(const char* path)
     {
             outfile = fopen(path, "w");
@@ -28,6 +39,9 @@ public:
             fprintf(outfile, "Platform: %s\n\n", PLATFORM_NAME;
     }
 
+    /**
+     * @brief Write the ending message and close the FILE stream.
+     */
     virtual ~LoggerFile()
     {
         if (outfile == NULL)
@@ -38,7 +52,12 @@ public:
         fclose(outfile);
     }
 
-    virtual void write(char* fmt, ...)
+    /**
+     * @brief Write a log message to the log file.
+     * @details Uses a function from the printf() -family internally, so is used similarily.
+     * @param fmt A C-string containing the formatting used.
+     */
+    virtual void write(const char* fmt, ...)
     {
         if (outfile != NULL)
         {
@@ -50,6 +69,7 @@ public:
     }
 
 private:
+    /** The log file pointer */
     FILE* outfile;
 };
 

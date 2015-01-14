@@ -1,7 +1,3 @@
-/* Copyright Eetu "Razbit" Pesonen, 2015
- * Any kind of redistribution without explicit permission is prohibited. */
-
-/* EntityLoader loads all the different entities to memory */
 
 #include <string>
 #include <ctype.h>
@@ -94,9 +90,9 @@ GLuint EntityLoader::load_shader(const char* path, GLenum type)
     fclose(fp);
 
     /* Sometimes there was some garbage in the end of the file preventing
-         * compilation. This way everything after the last \n} is removed */
+     * compilation. This way everything after the last \n} is removed */
 
-    int i = strlen(buf)-1;
+    unsigned int i = strlen(buf)-1;
     while (i > 0)
     {
         if (buf[i] == '}')
@@ -177,7 +173,6 @@ bool EntityLoader::load_shaders(Object3dData *obj)
     glDeleteShader(fragment_shader_id);
 
     obj->shader_id = program_id;
-    log.write("Shader id: 0x%x\n", obj->shader_id);
     return true;
 }
 
@@ -331,32 +326,53 @@ bool EntityLoader::load_obj(Object3dData *obj)
 bool EntityLoader::load_textures(Object3dData *obj)
 {
     if (obj->ent.diffuse_path != "none")
-        obj->diffuse_tex = SOIL_load_OGL_texture(obj->ent.diffuse_path.c_str(), SOIL_LOAD_AUTO, \
-                                                 SOIL_CREATE_NEW_ID, /*SOIL_FLAG_MIPMAPS \
+    {
+        obj->diffuse_tex = SOIL_load_OGL_texture(obj->ent.diffuse_path.c_str(),
+                                                 SOIL_LOAD_AUTO, \
+                                                 SOIL_CREATE_NEW_ID,
+                                                 /* SOIL_FLAG_MIPMAPS \
                                                  | SOIL_FLAG_INVERT_Y \
                                                  | SOIL_FLAG_NTSC_SAFE_RGB \
-                                                 | SOIL_FLAG_COMPRESS_TO_DXT*/
+                                                 | SOIL_FLAG_COMPRESS_TO_DXT */
                                                  SOIL_FLAG_DDS_LOAD_DIRECT);
+    }
     else
+    {
         obj->diffuse_tex = 0;
+        return false;
+    }
 
     if (obj->ent.normal_path != "none")
-        obj->normal_tex = SOIL_load_OGL_texture(obj->ent.normal_path.c_str(), SOIL_LOAD_AUTO, \
-                                                 SOIL_CREATE_NEW_ID, SOIL_FLAG_MIPMAPS \
-                                                 | SOIL_FLAG_INVERT_Y \
-                                                 | SOIL_FLAG_NTSC_SAFE_RGB \
-                                                 | SOIL_FLAG_COMPRESS_TO_DXT);
+    {
+        obj->normal_tex = SOIL_load_OGL_texture(obj->ent.normal_path.c_str(),
+                                                SOIL_LOAD_AUTO, \
+                                                SOIL_CREATE_NEW_ID, SOIL_FLAG_MIPMAPS \
+                                                | SOIL_FLAG_INVERT_Y \
+                                                | SOIL_FLAG_NTSC_SAFE_RGB \
+                                                | SOIL_FLAG_COMPRESS_TO_DXT);
+    }
     else
+    {
         obj->normal_tex = 0;
+    }
 
     if (obj->ent.specular_path != "none")
-        obj->specular_tex = SOIL_load_OGL_texture(obj->ent.specular_path.c_str(), SOIL_LOAD_AUTO, \
-                                                 SOIL_CREATE_NEW_ID, /*SOIL_FLAG_MIPMAPS \
-                                                 | SOIL_FLAG_INVERT_Y \
-                                                 | SOIL_FLAG_NTSC_SAFE_RGB \
-                                                 | SOIL_FLAG_COMPRESS_TO_DXT*/
-                                                 SOIL_FLAG_DDS_LOAD_DIRECT);
+    {
+        obj->specular_tex = SOIL_load_OGL_texture(obj->ent.specular_path.c_str(),
+                                                  SOIL_LOAD_AUTO, \
+                                                  SOIL_CREATE_NEW_ID, \
+                                                  /* SOIL_FLAG_MIPMAPS \
+                                                  | SOIL_FLAG_INVERT_Y \
+                                                  | SOIL_FLAG_NTSC_SAFE_RGB \
+                                                  | SOIL_FLAG_COMPRESS_TO_DXT */
+                                                  SOIL_FLAG_DDS_LOAD_DIRECT);
+    }
+    else
+    {
         obj->specular_tex = 0;
+    }
+
+    return true;
 }
 
 void EntityLoader::get_uniforms(Object3dData *obj)

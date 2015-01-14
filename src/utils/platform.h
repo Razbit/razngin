@@ -1,7 +1,11 @@
-/* Copyright Eetu "Razbit" Pesonen, 2015
- * Any kind of redistribution without explicit permission is prohibited. */
-
-/* Platform macros */
+/**
+ * @file
+ * @brief Macros for easily determining the platform.
+ * @author Eetu "Razbit" Pesonen
+ * @version 0.01
+ * @date 2015
+ * @copyright Any kind of redistribution without explicit permission is prohibited.
+ */
 
 #ifndef PLATFORM_H
 #define PLATFORM_H

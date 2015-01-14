@@ -1,0 +1,10 @@
+# Object files
+*.o
+
+# Backups
+*~
+
+# Documentation is generated using doxygen, so ignore doc/
+doc/*
+
+razngin.pro.user

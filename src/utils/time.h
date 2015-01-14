@@ -1,8 +1,3 @@
-/* Copyright Eetu "Razbit" Pesonen, 2015
- * Any kind of redistribution without explicit permission is prohibited. */
-
-/* Platform-independent time thingy */
-
 #ifndef TIME_H
 #define TIME_H
 
@@ -15,9 +10,25 @@
 #include <time.h>
 #endif // PLATFORM
 
+/**
+ * @file
+ * @brief A static class for getting time and date.
+ */
+
+/**
+ * @brief A platform-independent time thingy.
+ * @author Eetu "Razbit" Pesonen
+ * @version 0.01
+ * @date 2015
+ * @copyright Any kind of redistribution without explicit permission is prohibited.
+ */
 class Time
 {
 public:
+    /**
+     * @brief Get current time formatted as HH:MM:SS.
+     * @return A string containing the current time.
+     */
     static const std::string getTime()
     {
         std::ostringstream oss;
@@ -46,6 +57,10 @@ public:
         return oss.str();
     }
 
+    /**
+     * @brief Get current date formatted as YYYY-MM-DD.
+     * @return A string containing the date.
+     */
     static const std::string getDate()
     {
         std::ostringstream oss;

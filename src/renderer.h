@@ -17,15 +17,37 @@
 #include "scene.h"
 #include "object3d.h"
 
+/**
+ * @file
+ * @brief Scene-rendering related functionality.
+ */
+
+/**
+  * @brief Renders the scene.
+  * @details Renders the attached instance of Scene.
+  * @author Eetu "Razbit" Pesonen
+  * @version 0.01
+  * @date 2015
+  * @copyright Any kind of redistribution without explicit permission is prohibited.
+  */
 class Renderer
 {
 public:
+    /**
+     * @brief Attach the renderer to a scene, set up logging.
+     * @param log The logger to use.
+     * @param scene The scene we are rendering.
+     */
     Renderer(Logger& log, Scene* scene);
 
+    /** Render the scene */
     void render();
 
-    Scene* scene;
+protected:
+    /** A reference to the Logger that we are using. */
     Logger& log;
+    /** A pointer to the Scene we are rendering. */
+    Scene* scene;    
 };
 
 #endif // RENDERER_H

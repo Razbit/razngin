@@ -4,6 +4,15 @@
 #include <vector>
 #include <glm/glm.hpp>
 
+/**
+ * @file
+ * @brief Index the VBO.
+ */
+
+/**
+ * @brief Index the VBO.
+ */
+
 void indexVBO(
     std::vector<glm::vec3> & in_vertices,
     std::vector<glm::vec2> & in_uvs,
@@ -15,6 +24,9 @@ void indexVBO(
     std::vector<glm::vec3> & out_normals
 );
 
+/**
+ * @brief Index the VBO containing the Tangent-Bitangent-Normal info.
+ */
 void indexVBO_TBN(
     std::vector<glm::vec3> & in_vertices,
     std::vector<glm::vec2> & in_uvs,
