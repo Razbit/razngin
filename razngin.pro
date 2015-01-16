@@ -20,7 +20,8 @@ SOURCES += \
     src/tangentspace.cpp \
     src/scene.cpp \
     src/renderer.cpp \
-    src/game.cpp
+    src/game.cpp \
+    src/settingsloader.cpp
 
 HEADERS += \
     src/object3d.h \
@@ -37,5 +38,6 @@ HEADERS += \
     src/scene.h \
     src/settings.h \
     src/game.h \
-    src/renderer.h
+    src/renderer.h \
+    src/settingsloader.h
 
