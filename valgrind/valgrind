@@ -1,0 +1,1 @@
+valgrind --suppressions=fglrx.suppress --leak-check=full ./razngin 2> valgrind1.log

@@ -134,6 +134,8 @@ Settings* SettingsLoader::load(const char* path)
 
             }
 
+            ret->cur->add(setting);
+
         }
 
     }

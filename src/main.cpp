@@ -34,7 +34,7 @@ int main()
     LoggerConsole logger;
 
     SettingsLoader settingsldr(logger);
-    settingsldr.load("resource/settings.ini");
+    Settings* settings = settingsldr.load("resource/settings.ini");
 
     Scene* scene = new Scene(logger);
     Renderer* rend = new Renderer(logger, scene);
@@ -60,6 +60,7 @@ int main()
     delete scene;
     delete rend;
     delete obj;
+    delete settings;
 
     return 0;
 }

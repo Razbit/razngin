@@ -3,6 +3,7 @@
 
 #include <string>
 #include <string.h>
+#include <stdio.h>
 
 /**
  * @file
@@ -58,6 +59,9 @@ public:
         strncpy(val.str, str, 1024);
     }
 
+    ~Setting(){}
+
+
     /**
      * @brief Name of the entry
      */
@@ -86,12 +90,9 @@ public:
         Setting* ptr2 = NULL;
         while (ptr1 != NULL)
         {
-            if (ptr1 != NULL)
-            {
-                ptr2 = ptr1;
-                ptr1 = ptr1->next;
-                delete ptr2;
-            }
+            ptr2 = ptr1;
+            ptr1 = ptr1->next;
+            delete ptr2;
         }
     }
 
@@ -154,12 +155,9 @@ public:
         SettingGroup* ptr2 = NULL;
         while (ptr1 != NULL)
         {
-            if (ptr1 != NULL)
-            {
-                ptr2 = ptr1;
-                ptr1 = ptr1->next;
-                delete ptr2;
-            }
+            ptr2 = ptr1;
+            ptr1 = ptr1->next;
+            delete ptr2;
         }
     }
 
@@ -171,16 +169,18 @@ public:
     {
         SettingGroup* ptr;
         if (list == NULL)
-            ptr = list;
+        {
+           list = new SettingGroup(group);
+           cur = list;
+        }
         else
         {
             ptr = list;
             while (ptr->next != NULL)
                 ptr = ptr->next;
+           ptr->next = new SettingGroup(group);
+           cur = ptr->next;
         }
-
-        ptr = new SettingGroup(group);
-        cur = ptr;
     }
 
     /**

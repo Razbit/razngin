@@ -1,0 +1,43 @@
+{
+   fglrx_shit
+   Memcheck:Leak
+   ...
+   obj:/usr/lib/fglrx/dri/fglrx_dri.so
+}
+
+{
+   fglrx_shit2
+   Memcheck:Addr2
+   ...
+   obj:/usr/lib/fglrx/dri/fglrx_dri.so
+}
+
+{
+   fglrx_shit3
+   Memcheck:Addr4
+   ...
+   obj:/usr/lib/fglrx/dri/fglrx_dri.so
+}
+
+{
+   fglrx_shit4
+   Memcheck:Addr8
+   ...
+   obj:/usr/lib/fglrx/dri/fglrx_dri.so
+}
+
+
+
+{
+   fglrx_shit6
+   Memcheck:Overlap
+   ...
+   obj:/usr/lib/fglrx/dri/fglrx_dri.so
+}
+
+{
+   fglrx_shit7
+   Memcheck:Cond
+   ...
+   obj:/usr/lib/fglrx/dri/fglrx_dri.so
+}
