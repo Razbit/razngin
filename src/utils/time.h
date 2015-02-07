@@ -2,9 +2,11 @@
 #define TIME_H
 
 #include <string>
+#include <sstream>
+
 #include "platform.h"
 
-#if defined PLATFORM_WIN32
+#ifdef PLATFORM_WIN32
 #include <atltime.h>
 #else // Linux, OS X
 #include <time.h>
@@ -33,7 +35,7 @@ public:
     {
         std::ostringstream oss;
 
-#if defined PLATFORM_WIN32
+#ifdef PLATFORM_WIN32
 
         Ctime time = Ctime::GetCurrentTime();
         oss << time.GetHour() << ":" \
@@ -86,7 +88,7 @@ public:
 
 #endif
 
-        return oss;
+        return oss.str();
     }
 };
 

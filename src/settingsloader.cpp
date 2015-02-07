@@ -1,90 +1,145 @@
 #include <string.h>
 #include <stdio.h>
+#include <stdlib.h>
 #include <ctype.h>
 
 #include "utils/logger.h"
-#include "game.h"
 
 #include "settingsloader.h"
+#include "settings.h"
 
-bool SettingsLoader::load_file(const char* path)
+SettingsLoader::SettingsLoader(Logger& log) : log(log)
 {
-    FILE* fp = fopen(path, "r");
-    if (fp == NULL)
+
+}
+
+SettingsLoader::~SettingsLoader()
+{
+
+}
+
+Settings* SettingsLoader::load(const char* path)
+{
+    log.write("Loading settings from '%s'\n", path);
+
+    FILE* file = fopen(path, "r");
+    if (file == NULL)
     {
-        log.write("Configuration file not found: %s\n", path);
-        return false;
+        log.write("  Loading settings file failed!\n");
+        exit(EXIT_FAILURE);
     }
 
-    while (fgets(buf, 1024, fp) != NULL)
+    Settings* ret = new Settings;
+
+    /* We use the ini-file like syntax:
+     * [section]
+     * key=val
+     * # comment
+     */
+
+    while (1)
     {
-        char buf[1024];
-        char key[32];
-        char* ptr;
+        char buf[1500];
+        char key[64];
+        char val[1024];
 
-        char* p = strrchr(buf, '\n');
-        if (p != NULL)
-            p = NULL;
+        memset(buf, 0, 1500);
+        memset(key, 0, 64);
+        memset(val, 0, 1024);
 
-        while (isspace(*buf))
-            buf++;
+        if (fgets(buf, 1500, file) == NULL)
+            break;
 
-        if (*buf == '#')
-            continue;
+        //log.write("buf: %s '\n", buf);
 
-        if (*buf == '[') // The line contains a section (e.g. [video])
+        if (buf[0] == '#') // comment
         {
-            char[32] sect;
-            int i = 0;
-            while (*buf != ']')
-                sect[i++] = *buf++;
-            sect[i] == 0;
-
-            set_section(sect);
-
             continue;
         }
 
-        for (int i = 0; i < 32; i++)
+        else if (buf[0] == '[') // probably a section/group header
         {
-            if (buf[i] == ':')
+            char tmp[100];
+            int i = 1;
+            for (; i < 80; i++)
+                if (buf[i] == ']')
+                    break;
+            i--;
+            strncpy(tmp, &buf[1], i);
+            tmp[i] = '\0';
+
+            ret->addGroup(tmp);
+
+            log.write("  Loading section '%s'\n", tmp);
+        }
+
+        else
+        {
+            Setting* setting = NULL;
+
+            int j = 0;
+            for (; j < 64; j++)
             {
-                key[i++] = 0;
-
-                while (isspace(buf[i]))
-                    i++;
-
-                ptr = &buf[i]; // ptr points to the beginning of the value
-                break;
+                if (buf[j] != '=')
+                    key[j] = buf[j];
+                else
+                    break;
             }
-            key[i] = buf[i];
+            // todo: equals sign not reached
+
+            j++;
+            int max = j+1024;
+            for (int k = 0; j < max, k < 1024; j++, k++)
+            {
+                if (buf[j] != '\0')
+                    val[k] = buf[j];
+                else
+                {
+                    val[k] = '\0';
+                    break;
+                }
+            }
+
+            // A string value
+            if (val[0] == '"')
+            {
+                char tmp[1024];
+                int i = 1;
+                for (; i < 1024; i++)
+                    if (val[i] == '"')
+                        break;
+                i--;
+                strncpy(tmp, &val[1], i);
+                tmp[i] = '\0';
+
+                setting = new Setting(key, tmp);
+
+                log.write("  Loading <%s, %s>\n", setting->key.c_str(), setting->val.str);
+            }
+
+            // Numeric value
+            if (isdigit(val[0]))
+            {
+                // Float
+                if (strchr(&val[0], '.') != NULL)
+                {
+                    setting = new Setting(key, atof(val));
+                    log.write("  Loading <%s, %f>\n", setting->key.c_str(), setting->val.f);
+                }
+                else
+                {
+                    setting = new Setting(key, atoi(val));
+                    log.write("  Loading <%s, %d>\n", setting->key.c_str(), setting->val.n);
+                }
+
+            }
+
         }
 
-        set_value(key, ptr);
-
-    }
-}
-
-static char* strtolower(char* str)
-{
-    int i = 0;
-    while (str[i] != NULL)
-    {
-        str[i] = tolower(str[i]);
-        i++;
     }
 
-    return str;
+    log.write("Done loading settings\n\n");
+    fclose(file);
+    return ret;
 }
 
-void SettingsLoader::set_section(const char *sect)
-{
-    if (strcmp(strtolower(section), "video") == 0)
-        section = SEC_VIDEO;
-    //todo: other sections
-}
-
-void SettingsLoader::set_value(const char *key, const char *val)
-{
-
-}

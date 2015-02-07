@@ -34,9 +34,9 @@ public:
             if (outfile == NULL)
                 return;
 
-            fprintf(outfile, " Begin log (%s at %s)\n", Time::getDate().c_str(), \
+            fprintf(outfile, "Begin log (%s at %s)\n", Time::getDate().c_str(), \
                     Time::getTime().c_str());
-            fprintf(outfile, "Platform: %s\n\n", PLATFORM_NAME;
+            fprintf(outfile, "Platform: %s\n\n", PLATFORM_NAME);
     }
 
     /**
@@ -47,8 +47,8 @@ public:
         if (outfile == NULL)
             return;
 
-        fprintf(outfile, " End log (%s at %s)\n", Time::getDate().c_str(), \
-                 Time::getTime().c_str();
+        fprintf(outfile, "End log (%s at %s)\n", Time::getDate().c_str(), \
+                 Time::getTime().c_str());
         fclose(outfile);
     }
 

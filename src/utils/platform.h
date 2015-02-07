@@ -14,11 +14,11 @@
 #define PLATFORM_LINUX
 #define PLATFORM_NAME "Linux"
 
-#if defined _WIN32 || defined WIN32 || defined __NT__ || defined __WIN32__
+#elif defined _WIN32 || defined WIN32 || defined __NT__ || defined __WIN32__
 #define PLATFORM_WIN32
 #define PLATFORM_NAME "Windows"
 
-#if (defined __MWERKS__ && defined __powerc && !defined macintosh) || defined __APPLE_CC__ || defined macosx
+#elif (defined __MWERKS__ && defined __powerc && !defined macintosh) || defined __APPLE_CC__ || defined macosx
 #define PLATFORM_OSX
 #define PLATFORM_NAME "MacOS X"
 #endif
