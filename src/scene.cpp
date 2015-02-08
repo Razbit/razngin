@@ -23,13 +23,15 @@ Scene::Scene(Logger &log)
         exit(EXIT_FAILURE);
     }
 
-    glfwWindowHint(GLFW_SAMPLES, Game::settings.video.aa_samples); /* Antialiasing */
+    glfwWindowHint(GLFW_SAMPLES, Game::settings->get("video.aa_samples")->n);
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
     glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE); /* OS X */
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
-    window = glfwCreateWindow(Game::settings.video.width, Game::settings.video.height, "Razngin", NULL, NULL);
+    window = glfwCreateWindow(Game::settings->get("video.width")->n,  \
+                              Game::settings->get("video.height")->n, \
+                              "Razngin", NULL, NULL);
 
     if (window == NULL)
     {

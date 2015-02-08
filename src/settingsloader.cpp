@@ -88,8 +88,7 @@ Settings* SettingsLoader::load(const char* path)
             // todo: equals sign not reached
 
             j++;
-            int max = j+1024;
-            for (int k = 0; j < max, k < 1024; j++, k++)
+            for (int k = 0; k < 1024; j++, k++)
             {
                 if (buf[j] != '\0')
                     val[k] = buf[j];
@@ -140,7 +139,7 @@ Settings* SettingsLoader::load(const char* path)
 
     }
 
-    log.write("Done loading settings\n\n");
+    log.write("Done loading settings\n");
     fclose(file);
     return ret;
 }

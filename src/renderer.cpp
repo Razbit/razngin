@@ -16,7 +16,8 @@
 #include "game.h"
 #include "renderer.h"
 
-Renderer::Renderer(Logger& log, Scene* scene) : log(log), scene(scene)
+Renderer::Renderer(Logger& log, Scene* scene)
+    : log(log), scene(scene)
 {
 }
 
@@ -26,7 +27,10 @@ void Renderer::render()
 
     glUseProgram(scene->obj->shader_id);
 
-    scene->projection = glm::perspective(Game::settings.video.fov, Game::settings.video.aspect, 0.1f, 100.0f);
+    int w, h;
+    glfwGetWindowSize(scene->window, &w, &h);
+    scene->projection = glm::perspective((float)Game::settings->get("video.fov")->n, \
+                                         (float)w/h, 0.1f, 100.0f);
     scene->view = glm::lookAt(glm::vec3(4,3,-3), glm::vec3(0,0,0), glm::vec3(0,1,0));
     glm::mat4 model(1.0f);
 

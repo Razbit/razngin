@@ -3,13 +3,21 @@
 
 #include "settings.h"
 #include "utils/logger.h"
+/**
+  * @file
+  * @brief A class for loading settings
+  */
 
+/**
+ * @brief Loads settings from the ini file
+ */
 class SettingsLoader
 {
 public:
     SettingsLoader(Logger& log);
     ~SettingsLoader();
 
+    /** Load a file */
     Settings* load(const char* path);
 
 private:

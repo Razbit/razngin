@@ -21,7 +21,7 @@ public:
     Game(){}
 
     /** Game settings */
-    static s_settings settings;
+    static Settings* settings;
 };
 
 #endif // GAME_H

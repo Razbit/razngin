@@ -1,3 +1,5 @@
-#include "game.h"
 
-s_settings Game::settings;
+#include "game.h"
+#include "settings.h"
+
+Settings* Game::settings;

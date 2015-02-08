@@ -11,38 +11,12 @@
  */
 
 /**
- * @brief A struct for storing video settings
- */
-struct s_video
-{
-    /** Width of the scene */
-    int width;
-    /** Height of the scene */
-    int height;
-    /** Field of View */
-    float fov;
-    /** Aspect ratio */
-    float aspect;
-    /** Anti-aliasing samples */
-    int aa_samples;
-};
-
-/**
- * @brief A struct for storing game settings
- */
-struct s_settings
-{
-    /** Video settings @sa s_video */
-    struct s_video video;
-};
-
-/**
  * @brief value of an entry in the settings list
  */
 union s_val
 {
     int n;
-    double f;
+    float f;
     char str[1024];
 };
 
@@ -116,7 +90,7 @@ public:
         }
     }
 
-    s_val get(std::string key)
+    s_val* get(std::string key)
     {
         Setting* ptr = list;
         while(ptr->key != key)
@@ -124,13 +98,11 @@ public:
             ptr = ptr->next;
             if (ptr == NULL) // We have reached the end, thus we return 0
             {
-                s_val ret;
-                memset(ret.str, 0, 1024);
-                return ret;
+                return NULL;
             }
         }
 
-        return ptr->val;
+        return &(ptr->val);
     }
 
     /** Name of the group */
@@ -206,7 +178,7 @@ public:
      * @param query What setting we want, "group.setting"
      * @return An instance of s_val union containing the data
      */
-    s_val get(std::string query)
+    s_val* get(std::string query)
     {
         char* group = new char[64];
         char* key = new char[64];

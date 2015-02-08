@@ -45,19 +45,12 @@ int main()
     LoggerConsole logger;
 #endif
 
-    Game::settings.video.aa_samples = 4;
-    Game::settings.video.fov = 75;
-    Game::settings.video.width = 1024;
-    Game::settings.video.height = 768;
-    Game::settings.video.aspect = (float)Game::settings.video.width/Game::settings.video.height;
-
     SettingsLoader settingsldr(logger);
-    Settings* settings = settingsldr.load("resource/settings.ini");
+    Game::settings = settingsldr.load("resource/settings.ini");
 
     Scene* scene = new Scene(logger);
     Renderer* rend = new Renderer(logger, scene);
     EntityLoader entldr(logger);
-
 
     Object3dData* obj = new Object3dData;
 
@@ -78,7 +71,7 @@ int main()
     delete scene;
     delete rend;
     delete obj;
-    delete settings;
+    delete Game::settings;
 
     return 0;
 }
