@@ -12,6 +12,15 @@
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
 
+#include "utils/platform.h"
+
+#ifdef PLATFORM_WIN32
+    #include <windows.h> //FreeConsole()
+    #include <direct.h> //getcwd()
+#else
+    #include <unistd.h>
+#endif
+
 #include "scene.h"
 #include "game.h"
 #include "renderer.h"
@@ -21,17 +30,26 @@
 #include "utils/loggerfile.h"
 #include "settingsloader.h"
 
+//#define NOCONSOLE
 
 int main()
 {
+#ifdef NOCONSOLE
+    LoggerFile logger("logfile.log");
+#ifdef PLATFORM_WIN32
+    FreeConsole();
+#else
+    //TODO: No console in Linux?
+#endif
+#else
+    LoggerConsole logger;
+#endif
+
     Game::settings.video.aa_samples = 4;
     Game::settings.video.fov = 75;
     Game::settings.video.width = 1024;
     Game::settings.video.height = 768;
     Game::settings.video.aspect = (float)Game::settings.video.width/Game::settings.video.height;
-
-    //LoggerFile logger("logfile.log");
-    LoggerConsole logger;
 
     SettingsLoader settingsldr(logger);
     Settings* settings = settingsldr.load("resource/settings.ini");

@@ -3,10 +3,6 @@ CONFIG += console
 CONFIG -= app_bundle
 CONFIG -= qt
 
-INCLUDEPATH += src/include/ src/lib/
-
-linux:LIBS += -lGL -lGLU -lglfw3 -lX11 -lXxf86vm -lXrandr -lpthread -lXi
-
 SOURCES += \
     src/main.cpp \
     src/lib/glew/glew.c \
@@ -41,3 +37,12 @@ HEADERS += \
     src/renderer.h \
     src/settingsloader.h
 
+INCLUDEPATH += $$PWD/src/include
+
+linux:LIBS += -lGL -lGLU -lglfw3 -lX11 -lXxf86vm -lXrandr -lpthread -lXi
+
+# For MSVC2013, x86_64
+win32:CONFIG += opengl
+win32:LIBS += -L"$$PWD/../../../../../Program Files (x86)/Microsoft Visual Studio 12.0/VC/lib/amd64" -lglfw3dll
+win32:INCLUDEPATH += "$$PWD/../../../../../Program Files (x86)/Microsoft Visual Studio 12.0/VC/include"
+win32:DEPENDPATH += "$$PWD/../../../../../Program Files (x86)/Microsoft Visual Studio 12.0/VC/include"

@@ -4,13 +4,7 @@
 #include <string>
 #include <sstream>
 
-#include "platform.h"
-
-#ifdef PLATFORM_WIN32
-#include <atltime.h>
-#else // Linux, OS X
 #include <time.h>
-#endif // PLATFORM
 
 /**
  * @file
@@ -35,15 +29,6 @@ public:
     {
         std::ostringstream oss;
 
-#ifdef PLATFORM_WIN32
-
-        Ctime time = Ctime::GetCurrentTime();
-        oss << time.GetHour() << ":" \
-            << time.GetMinute() << ":" \
-            << time.GetSecond();
-
-#else // Linux, OS X
-
         time_t raw;
         struct tm* timeinfo;
         char buf[50];
@@ -53,8 +38,6 @@ public:
 
         strftime(buf, 50, "%H:%M:%S", timeinfo);
         oss << buf;
-
-#endif // PLATFORM
 
         return oss.str();
     }
@@ -67,15 +50,6 @@ public:
     {
         std::ostringstream oss;
 
-#ifdef PLATFORM_WIN32
-
-        CTime time = CTime::GetCurrentTime();
-        oss << time.GetYear() << "-" \
-            << time.GetMonth() << "-" \
-            << time.GetDay();
-
-#else // Linux, OS X
-
         time_t raw;
         struct tm* timeinfo;
         char buf[50];
@@ -85,8 +59,6 @@ public:
 
         strftime(buf, 50, "%Y-%m-%d", timeinfo);
         oss << buf;
-
-#endif
 
         return oss.str();
     }

@@ -1,0 +1,4 @@
+windows:
+	- copy glfw3 and glfw3dll to VC/lib/amd64
+	- copy GLFW directory to VC/include
+	- copy glfw3.dll to same dir with the executable

@@ -4,6 +4,7 @@
 #include <iostream>
 #include <stdio.h>
 #include <stdarg.h>
+#include "time.h"
 
 #include "logger.h"
 
@@ -31,6 +32,8 @@ public:
      */
     virtual void write(const char* fmt, ...)
     {
+        printf("[%s] ", Time::getTime().c_str());
+
         va_list args;
         va_start (args, fmt);
         vprintf(fmt, args);

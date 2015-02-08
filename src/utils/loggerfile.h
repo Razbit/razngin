@@ -61,6 +61,8 @@ public:
     {
         if (outfile != NULL)
         {
+            fprintf(outfile, "[%s] ", Time::getTime().c_str());
+
             va_list args;
             va_start (args, fmt);
             vfprintf(outfile, fmt, args);
