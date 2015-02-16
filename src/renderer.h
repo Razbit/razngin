@@ -15,6 +15,7 @@
 
 #include "utils/logger.h"
 #include "scene.h"
+#include "game.h"
 #include "object3d.h"
 
 /**
@@ -35,17 +36,16 @@ class Renderer
 public:
     /**
      * @brief Attach the renderer to a scene, set up logging.
-     * @param log The logger to use.
      * @param scene The scene we are rendering.
      */
-    Renderer(Logger& log, Scene* scene);
+    Renderer(Scene* scene);
 
     /** Render the scene */
     void render();
 
 protected:
-    /** A reference to the Logger that we are using. */
-    Logger& log;
+    /** The Logger that we are using. */
+    Logger* log;
     /** A pointer to the Scene we are rendering. */
     Scene* scene;    
 };

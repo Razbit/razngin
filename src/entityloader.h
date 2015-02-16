@@ -32,9 +32,8 @@ class EntityLoader
 public:
     /**
      * @brief Constructor
-     * @param log The logger using which log messages are delivered.
      */
-    EntityLoader(Logger &log):log(log) {}
+    EntityLoader();
 
     /**
      * @brief Parse the .model file.
@@ -82,7 +81,7 @@ private:
     /**
      * @brief  A reference to the Logger that is in use.
      */
-    Logger& log;
+    Logger* log;
 };
 
 #endif // ENTITYLOADER_H

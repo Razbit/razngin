@@ -35,43 +35,42 @@
 int main()
 {
 #ifdef NOCONSOLE
-    LoggerFile logger("logfile.log");
+    Game::log = new LoggerFile("logfile.log");
 #ifdef PLATFORM_WIN32
     FreeConsole();
 #else
     //TODO: No console in Linux?
 #endif
 #else
-    LoggerConsole logger;
+    Game::log = new LoggerConsole();
 #endif
 
-    SettingsLoader settingsldr(logger);
-    Game::settings = settingsldr.load("resource/settings.ini");
+    Game::settingsldr = new SettingsLoader();
+    Game::settings = Game::settingsldr->load("resource/settings.ini");
 
-    Scene* scene = new Scene(logger);
-    Renderer* rend = new Renderer(logger, scene);
-    EntityLoader entldr(logger);
+    Game::scene = new Scene();
+    Game::renderer = new Renderer(Game::scene);
+    Game::entldr = new EntityLoader();
 
     Object3dData* obj = new Object3dData;
 
-    obj->ent = entldr.parse_file("resource/test.model");
-    entldr.load_shaders(obj);
-    entldr.load_obj(obj);
-    entldr.load_textures(obj);
-    entldr.get_uniforms(obj);
-    scene->setObj(obj);
+    obj->ent = Game::entldr->parse_file("resource/test.model");
+    Game::entldr->load_shaders(obj);
+    Game::entldr->load_obj(obj);
+    Game::entldr->load_textures(obj);
+    Game::entldr->get_uniforms(obj);
+    Game::scene->setObj(obj);
 
     do
     {
-        rend->render();
+        Game::renderer->render();
         glfwPollEvents();
-    } while(glfwGetKey(scene->window, GLFW_KEY_ESCAPE) != GLFW_PRESS \
-        && glfwWindowShouldClose(scene->window) == 0);
+    } while(glfwGetKey(Game::scene->window, GLFW_KEY_ESCAPE) != GLFW_PRESS \
+        && glfwWindowShouldClose(Game::scene->window) == 0);
 
-    delete scene;
-    delete rend;
     delete obj;
-    delete Game::settings;
+
+    Game::terminate(EXIT_SUCCESS);
 
     return 0;
 }

@@ -14,7 +14,7 @@
 class SettingsLoader
 {
 public:
-    SettingsLoader(Logger& log);
+    SettingsLoader();
     ~SettingsLoader();
 
     /** Load a file */
@@ -22,7 +22,7 @@ public:
 
 private:
     /** The logger to be used */
-    Logger& log;
+    Logger* log;
 };
 
 #endif // SETTINGSLOADER_H

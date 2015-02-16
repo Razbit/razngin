@@ -13,15 +13,21 @@
 #include "object3d.h"
 #include "entityloader.h"
 #include "tangentspace.h"
+#include "game.h"
+
+EntityLoader::EntityLoader()
+{
+    log = Game::log;
+}
 
 struct entity_info EntityLoader::parse_file(const char* path)
 {
-    log.write("Parsing block information from '%s'\n", path);
+    log->write("Parsing block information from '%s'\n", path);
 
     FILE* file = fopen(path, "r");
     if (file == NULL)
     {
-        log.write("  Parsing failed!\n");
+        log->write("  Parsing failed!\n");
         exit(EXIT_FAILURE);
     }
 
@@ -52,7 +58,7 @@ struct entity_info EntityLoader::parse_file(const char* path)
         else if (strcmp(buf, "name:") == 0)
             info.name = std::string(buf2);
         else
-            log.write("  Unkown selector: %s -- skipping\n", buf);
+            log->write("  Unkown selector: %s -- skipping\n", buf);
     }
 
     fclose(file);
@@ -63,13 +69,13 @@ GLuint EntityLoader::load_shader(const char* path, GLenum type)
 {
     GLuint shader_id = glCreateShader(type);
 
-    log.write("Loading shader: %s\n", path);
+    log->write("Loading shader: %s\n", path);
 
     /* Read contents of the shader files */
     FILE* fp = fopen(path, "r");
     if (fp == NULL)
     {
-        log.write("  Shader not found: %s\n", path);
+        log->write("  Shader not found: %s\n", path);
         return 0;
     }
 
@@ -79,7 +85,7 @@ GLuint EntityLoader::load_shader(const char* path, GLenum type)
     char* buf = (char*)malloc(buf_size);
     if (buf == NULL)
     {
-        log.write("  Memory error\n");
+        log->write("  Memory error\n");
         fclose(fp);
         return 0;
     }
@@ -92,7 +98,7 @@ GLuint EntityLoader::load_shader(const char* path, GLenum type)
     /* Sometimes there was some garbage in the end of the file preventing
      * compilation. This way everything after the last \n} is removed */
 
-    unsigned int i = strlen(buf)-1;
+    size_t i = strlen(buf)-1;
     while (i > 0)
     {
         if (buf[i] == '}')
@@ -106,7 +112,7 @@ GLuint EntityLoader::load_shader(const char* path, GLenum type)
     }
     if (i == 0)
     {
-        log.write("  Failed to load shader: %s\n", path);
+        log->write("  Failed to load shader: %s\n", path);
         return 0;
     }
     if (i+1 < strlen(buf))
@@ -114,7 +120,7 @@ GLuint EntityLoader::load_shader(const char* path, GLenum type)
 
     /* Time to compile the shader */
 
-    log.write("Compiling shader: %s\n", path);
+    log->write("Compiling shader: %s\n", path);
 
     glShaderSource(shader_id, 1, &buf, NULL);
     glCompileShader(shader_id);
@@ -129,7 +135,7 @@ GLuint EntityLoader::load_shader(const char* path, GLenum type)
     {
         char* logbuf = (char*)malloc(info_log_len);
         glGetShaderInfoLog(shader_id, info_log_len, NULL, logbuf);
-        log.write("%s\n", logbuf);
+        log->write("%s\n", logbuf);
         free(logbuf);
         free(buf);
         return 0;
@@ -149,7 +155,7 @@ bool EntityLoader::load_shaders(Object3dData *obj)
         return false;
 
     /* Link program */
-    log.write("Linking shaders for %s (ID: %d)\n", obj->ent.name.c_str(), obj->ent.type);
+    log->write("Linking shaders for %s (ID: %d)\n", obj->ent.name.c_str(), obj->ent.type);
 
     GLuint program_id = glCreateProgram();
     glAttachShader(program_id, vertex_shader_id);
@@ -165,7 +171,7 @@ bool EntityLoader::load_shaders(Object3dData *obj)
     {
         char* logbuf = (char*)malloc(info_log_len);
         glGetProgramInfoLog(program_id, info_log_len, NULL, logbuf);
-        log.write("%s\n", logbuf);
+        log->write("%s\n", logbuf);
         free(logbuf);
     }
 
@@ -191,12 +197,12 @@ bool EntityLoader::load_obj(Object3dData *obj)
 
     const char* path = obj->ent.obj_path.c_str();
 
-    log.write("Loading model: %s\n", path);
+    log->write("Loading model: %s\n", path);
 
     FILE* fp = fopen(path, "r");
     if (fp == NULL)
     {
-        log.write("File not found: %s\n", path);
+        log->error(OTHER, "File not found: %s\n", path);
         return false;
     }
 
@@ -233,7 +239,7 @@ bool EntityLoader::load_obj(Object3dData *obj)
                     );
             if (matches != 9)
             {
-                log.write("Parsing failed: %s\n", path);
+                log->write("Parsing failed: %s\n", path);
                 return false;
             }
             vertex_indices.push_back(vertex_index[0]);
@@ -318,7 +324,7 @@ bool EntityLoader::load_obj(Object3dData *obj)
     glBufferData(GL_ELEMENT_ARRAY_BUFFER, indices.size() * sizeof(unsigned int), \
                  &indices[0], GL_STATIC_DRAW);
 
-    obj->faces = indices.size();
+    obj->faces = static_cast<GLuint>(indices.size());
 
     return true;
 }

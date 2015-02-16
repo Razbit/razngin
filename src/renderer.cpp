@@ -16,8 +16,8 @@
 #include "game.h"
 #include "renderer.h"
 
-Renderer::Renderer(Logger& log, Scene* scene)
-    : log(log), scene(scene)
+Renderer::Renderer(Scene* scene)
+    : log(Game::log), scene(scene)
 {
 }
 

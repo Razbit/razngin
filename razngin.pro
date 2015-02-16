@@ -46,3 +46,5 @@ win32:CONFIG += opengl
 win32:LIBS += -L"$$PWD/../../../../../Program Files (x86)/Microsoft Visual Studio 12.0/VC/lib/amd64" -lglfw3dll
 win32:INCLUDEPATH += "$$PWD/../../../../../Program Files (x86)/Microsoft Visual Studio 12.0/VC/include"
 win32:DEPENDPATH += "$$PWD/../../../../../Program Files (x86)/Microsoft Visual Studio 12.0/VC/include"
+
+win32:DEFINES += _CRT_SECURE_NO_WARNINGS

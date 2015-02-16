@@ -70,6 +70,31 @@ public:
         }
     }
 
+    /**
+     * @brief Write an error message to the log file.
+     * @details Uses a function from the printf() -family internally, so is used similarily.
+     * @param fmt A C-string containing the formatting used.
+     * @param severity An integer for severity of the error (0 == terminate)
+     */
+    virtual void error(int severity, const char* fmt, ...)
+    {
+        if (outfile != NULL)
+        {
+            fprintf(outfile, "[%s] ERROR: ", Time::getTime().c_str());
+
+            va_list args;
+            va_start (args, fmt);
+            vfprintf(outfile, fmt, args);
+            va_end (args);
+        }
+
+        if (severity == 0)
+        {
+            write("Error cannot be handled, terminating..\n");
+            Game::terminate(EXIT_FAILURE);
+        }
+    }
+
 private:
     /** The log file pointer */
     FILE* outfile;

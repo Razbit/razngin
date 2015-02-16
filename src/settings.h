@@ -16,7 +16,7 @@
 union s_val
 {
     int n;
-    float f;
+    double f;
     char str[1024];
 };
 
