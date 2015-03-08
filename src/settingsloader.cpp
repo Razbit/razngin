@@ -6,11 +6,12 @@
 #include "utils/logger.h"
 
 #include "settingsloader.h"
+#include "game.h"
 #include "settings.h"
 
-SettingsLoader::SettingsLoader(Logger& log) : log(log)
+SettingsLoader::SettingsLoader()
 {
-
+    log = Game::log;
 }
 
 SettingsLoader::~SettingsLoader()
@@ -20,13 +21,12 @@ SettingsLoader::~SettingsLoader()
 
 Settings* SettingsLoader::load(const char* path)
 {
-    log.write("Loading settings from '%s'\n", path);
+    log->write("Loading settings from '%s'\n", path);
 
     FILE* file = fopen(path, "r");
     if (file == NULL)
     {
-        log.write("  Loading settings file failed!\n");
-        exit(EXIT_FAILURE);
+        log->error(SEVERE, "Loading settings failed: No such file: %s\n", path);
     }
 
     Settings* ret = new Settings;
@@ -50,8 +50,6 @@ Settings* SettingsLoader::load(const char* path)
         if (fgets(buf, 1500, file) == NULL)
             break;
 
-        //log.write("buf: %s '\n", buf);
-
         if (buf[0] == '#') // comment
         {
             continue;
@@ -70,7 +68,7 @@ Settings* SettingsLoader::load(const char* path)
 
             ret->addGroup(tmp);
 
-            log.write("  Loading section '%s'\n", tmp);
+            log->write("Loading section '%s'\n", tmp);
         }
 
         else
@@ -113,7 +111,7 @@ Settings* SettingsLoader::load(const char* path)
 
                 setting = new Setting(key, tmp);
 
-                log.write("  Loading <%s, %s>\n", setting->key.c_str(), setting->val.str);
+                log->write("Loading <%s, %s>\n", setting->key.c_str(), setting->val.str);
             }
 
             // Numeric value
@@ -123,12 +121,12 @@ Settings* SettingsLoader::load(const char* path)
                 if (strchr(&val[0], '.') != NULL)
                 {
                     setting = new Setting(key, atof(val));
-                    log.write("  Loading <%s, %f>\n", setting->key.c_str(), setting->val.f);
+                    log->write("Loading <%s, %f>\n", setting->key.c_str(), setting->val.f);
                 }
                 else
                 {
                     setting = new Setting(key, atoi(val));
-                    log.write("  Loading <%s, %d>\n", setting->key.c_str(), setting->val.n);
+                    log->write("Loading <%s, %d>\n", setting->key.c_str(), setting->val.n);
                 }
 
             }
@@ -139,7 +137,7 @@ Settings* SettingsLoader::load(const char* path)
 
     }
 
-    log.write("Done loading settings\n");
+    log->write("Done loading settings\n");
     fclose(file);
     return ret;
 }

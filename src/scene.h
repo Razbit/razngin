@@ -34,10 +34,9 @@ class Scene
 {
 public:
     /**
-     * @brief Sets up logging and creates OpenGL context.
-     * @param log The logger using which log messages are delivered.
+     * @brief Creates OpenGL context.
      */
-    Scene(Logger &log);
+    Scene();
     /**
      * @brief Cleans up the OpenGL -related data.
      */
@@ -75,9 +74,9 @@ public:
 
 private:
     /**
-     * @brief  A reference to the Logger that is in use.
+     * @brief  The Logger that is in use.
      */
-    Logger& log;
+    Logger* log;
 };
 
 #endif // SCENE_H

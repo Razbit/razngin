@@ -13,13 +13,14 @@
 #include "game.h"
 #include "scene.h"
 
-Scene::Scene(Logger &log)
-    :log(log)
+Scene::Scene()
 {
+    log = Game::log;
+
     // Create OpenGL context
     if (!glfwInit())
     {
-        log.write("Failed to init GLFW\n");
+        log->write("Failed to init GLFW\n");
         exit(EXIT_FAILURE);
     }
 
@@ -35,7 +36,7 @@ Scene::Scene(Logger &log)
 
     if (window == NULL)
     {
-        log.write("Failed to open GLFW window\n");
+        log->write("Failed to open GLFW window\n");
         glfwTerminate();
         exit(EXIT_FAILURE);
     }
@@ -45,7 +46,7 @@ Scene::Scene(Logger &log)
 
     if (glewInit() != GLEW_OK)
     {
-        log.write("Failed to init GLEW\n");
+        log->write("Failed to init GLEW\n");
         exit(EXIT_FAILURE);
     }
 
