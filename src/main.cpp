@@ -38,8 +38,6 @@ int main()
     LoggerFile logger("logfile.log");
 #ifdef PLATFORM_WIN32
     FreeConsole();
-#else
-    //TODO: No console in Linux?
 #endif
 #else
     LoggerConsole logger;
@@ -65,8 +63,7 @@ int main()
     {
         rend->render();
         glfwPollEvents();
-    } while(glfwGetKey(scene->window, GLFW_KEY_ESCAPE) != GLFW_PRESS \
-        && glfwWindowShouldClose(scene->window) == 0);
+    } while(glfwWindowShouldClose(scene->window) == 0);
 
     delete scene;
     delete rend;
