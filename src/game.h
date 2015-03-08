@@ -48,7 +48,7 @@ public:
     /**
      * @brief Terminates the game by destructing all the key parts of the game
      */
-    static void Game::terminate(int status)
+    static void terminate(int status)
     {
         delete settings;
         delete settingsldr;

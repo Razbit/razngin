@@ -63,7 +63,7 @@ int main()
     {
         Game::renderer->render();
         glfwPollEvents();
-    } while(glfwWindowShouldClose(scene->window) == 0);
+    } while(glfwWindowShouldClose(Game::scene->window) == 0);
 
 
     delete obj;
