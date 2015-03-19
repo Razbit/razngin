@@ -17,7 +17,8 @@ SOURCES += \
     src/scene.cpp \
     src/renderer.cpp \
     src/settingsloader.cpp \
-    src/game.cpp
+    src/game.cpp \
+    src/inputsystem.cpp
 
 HEADERS += \
     src/object3d.h \
@@ -35,7 +36,9 @@ HEADERS += \
     src/settings.h \
     src/game.h \
     src/renderer.h \
-    src/settingsloader.h
+    src/settingsloader.h \
+    src/inputsystem.h \
+    src/rvec.h
 
 INCLUDEPATH += $$PWD/src/include
 

@@ -54,7 +54,7 @@ int main()
 
     Object3dData* obj = new Object3dData;
 
-    obj->ent = Game::entldr->parse_file("resource/test.model");
+    obj->ent = Game::entldr->parse_file("resource/cube.model");
     Game::entldr->load_shaders(obj);
     Game::entldr->load_obj(obj);
     Game::entldr->load_textures(obj);
@@ -63,6 +63,7 @@ int main()
 
     do
     {
+
         Game::renderer->render();
         glfwPollEvents();
     } while(glfwGetKey(Game::scene->window, GLFW_KEY_ESCAPE) != GLFW_PRESS \

@@ -1,0 +1,9 @@
+vertex: resource/simple.vert
+fragment: resource/simple.frag
+obj: resource/cube.obj
+diffuse: resource/cube.dds
+normal:
+specular:
+name: Cube
+type: 2
+
