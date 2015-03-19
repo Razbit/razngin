@@ -38,8 +38,6 @@ int main()
     Game::log = new LoggerFile("logfile.log");
 #ifdef PLATFORM_WIN32
     FreeConsole();
-#else
-    //TODO: No console in Linux?
 #endif
 #else
     Game::log = new LoggerConsole();
@@ -66,8 +64,8 @@ int main()
 
         Game::renderer->render();
         glfwPollEvents();
-    } while(glfwGetKey(Game::scene->window, GLFW_KEY_ESCAPE) != GLFW_PRESS \
-        && glfwWindowShouldClose(Game::scene->window) == 0);
+    } while(glfwWindowShouldClose(Game::scene->window) == 0);
+
 
     delete obj;
 
