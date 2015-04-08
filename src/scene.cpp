@@ -34,6 +34,9 @@ Scene::Scene()
                               Game::settings->get("video.height")->n, \
                               "Razngin", NULL, NULL);
 
+    log->write("OpenGL version: %s\n", glGetString(GL_VERSION));
+    log->write("GLFW version: %s\n", glfwGetVersionString());
+
     if (window == NULL)
     {
         log->write("Failed to open GLFW window\n");
