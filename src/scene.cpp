@@ -24,6 +24,8 @@ Scene::Scene()
         exit(EXIT_FAILURE);
     }
 
+    log->write("GLFW version: %s\n", glfwGetVersionString());
+
     glfwWindowHint(GLFW_SAMPLES, Game::settings->get("video.aa_samples")->n);
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
@@ -33,9 +35,6 @@ Scene::Scene()
     window = glfwCreateWindow(Game::settings->get("video.width")->n,  \
                               Game::settings->get("video.height")->n, \
                               "Razngin", NULL, NULL);
-
-    log->write("OpenGL version: %s\n", glGetString(GL_VERSION));
-    log->write("GLFW version: %s\n", glfwGetVersionString());
 
     if (window == NULL)
     {
